@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progress Log | Internship Tracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #eaeaea, #ffffff, #eaeaea);
+      color: #000;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .dark-mode {
+      background: #1e1e2e;
+      color: #f4f6f9;
+    }
+    .navbar {
+      background-color: #6c2c91;
+    }
+    .navbar .navbar-brand,
+    .navbar .nav-link {
+      color: #ffffff;
+    }
+    .navbar .nav-link:hover {
+      color: #d0c7ff;
+    }
+    .card {
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      background-color: #ffffff;
+    }
+    .dark-mode .card,
+    .dark-mode .card-header,
+    .dark-mode .dropdown-menu {
+      background-color: #2f2f48;
+      color: #f4f6f9;
+    }
+    .card-header {
+      background-color: #6c2c91;
+      color: white;
+    }
+    .btn-custom {
+      background-color: #6c2c91;
+      color: white;
+      border: none;
+    }
+    footer {
+      text-align: center;
+      padding: 10px;
+      font-size: 14px;
+      color: #555;
+      background-color: #f8f9fa;
+      border-top: 1px solid #ddd;
+    }
+    .dark-mode footer {
+      background-color: #1e1e2e;
+      color: #bbb;
+    }
+    .theme-toggle-btn {
+      font-size: 0.9rem;
+      padding: 5px 10px;
+    }
+    #progressChart {
+      max-width: 400px;
+      margin: 30px auto;
+    }
+  </style>
+</head>
+<body>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" href="dashboard.html">
+      <img src="picture/LogoUiTM.png" alt="Logo" width="100" height="50" class="me-2" />
+      Internship Tracker
+    </a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="internship-list.html"><i class="fas fa-clipboard-list"></i> Internships</a></li>
+        <li class="nav-item"><a class="nav-link active" href="progress-log.html"><i class="fas fa-chart-line"></i> Progress</a></li>
+        <li class="nav-item"><a class="nav-link" href="lecturer.html"><i class="fas fa-chalkboard-teacher"></i> Lecturers</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown">
+            <i class="fas fa-user"></i> Profile
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="profileDropdown">
+            <li><a class="dropdown-item" href="profile.html">View Profile</a></li>
+            <li><a class="dropdown-item" href="#" onclick="logout()">Log Out</a></li>
+          </ul>
+        </li>
+      </ul>
+      <button class="btn btn-warning btn-sm ms-3 theme-toggle-btn" onclick="toggleTheme()">
+        <i class="fas fa-adjust"></i> Theme
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Progress Log Content -->
+<div class="container py-4">
+  <h2 class="text-center mb-4">Progress Log</h2>
+  <div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#addLogModal"><i class="fas fa-plus"></i> Add New Log</button>
+  </div>
+  <div id="logContainer"></div>
+  <div class="card mt-4">
+    <div class="card-header"><i class="fas fa-chart-line"></i> Log Status Overview</div>
+    <div class="card-body">
+      <canvas id="progressChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>© 2025 UiTM Internship Tracker.</p>
+</footer>
+
+<!-- Modal -->
+<div class="modal fade" id="addLogModal" tabindex="-1" aria-labelledby="addLogModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addLogModalLabel">Add New Log</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="logForm">
+          <div class="mb-3">
+            <label for="logSummary" class="form-label">Summary</label>
+            <textarea class="form-control" id="logSummary" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="logStatus" class="form-label">Status</label>
+            <select class="form-select" id="logStatus" required>
+              <option value="Completed">Completed</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Scheduled">Scheduled</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="logDate" class="form-label">Date</label>
+            <input type="date" class="form-control" id="logDate" required>
+          </div>
+          <button type="submit" class="btn btn-custom">Add</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+  let logChart;
+  const logData = { 'Completed': 0, 'In Progress': 0, 'Scheduled': 0 };
+
+  function toggleTheme() {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+  }
+
+  (function applyTheme() {
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+  })();
+
+  function logout() {
+    if (confirm('Are you sure you want to log out?')) {
+      window.location.href = 'index.html';
+    }
+  }
+
+  function renderLog(log) {
+    const logHTML = `
+      <div class="card">
+        <div class="card-header">Weekly Report</div>
+        <div class="card-body">
+          <p><strong>Summary:</strong> ${log.summary}</p>
+          <p><strong>Status:</strong> <span class="badge ${log.status === 'Completed' ? 'bg-success' : log.status === 'In Progress' ? 'bg-warning' : 'bg-info'}">${log.status}</span></p>
+          <p><strong>Date:</strong> ${log.date}</p>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-custom btn-sm" onclick="editLog(this)">Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteLog(this, '${log.status}')">Delete</button>
+          </div>
+        </div>
+      </div>`;
+    document.getElementById('logContainer').insertAdjacentHTML('beforeend', logHTML);
+  }
+
+  function updateChart() {
+    logChart.data.datasets[0].data = Object.values(logData);
+    logChart.update();
+  }
+
+  function deleteLog(button, status) {
+    if (confirm('Are you sure you want to delete this log entry?')) {
+      const card = button.closest('.card');
+      const summaryText = card.querySelector('p:nth-of-type(1)').textContent.replace('Summary: ', '');
+      const logs = JSON.parse(localStorage.getItem('logs')) || [];
+      const updatedLogs = logs.filter(log => log.summary !== summaryText);
+      localStorage.setItem('logs', JSON.stringify(updatedLogs));
+
+      card.remove();
+      logData[status]--;
+      updateChart();
+    }
+  }
+
+  function editLog(button) {
+    const cardBody = button.closest('.card-body');
+    const summary = cardBody.querySelector('p:nth-of-type(1)');
+    const status = cardBody.querySelector('span');
+    const date = cardBody.querySelector('p:nth-of-type(3)');
+
+    const summaryText = summary.textContent.replace('Summary: ', '');
+    const statusText = status.textContent;
+    const dateText = date.textContent.replace('Date: ', '');
+
+    summary.innerHTML = '<strong>Summary:</strong> <input type="text" class="form-control form-control-sm" value="' + summaryText + '">';
+    status.outerHTML = '<select class="form-select form-select-sm"><option' + (statusText === 'Completed' ? ' selected' : '') + '>Completed</option><option' + (statusText === 'In Progress' ? ' selected' : '') + '>In Progress</option><option' + (statusText === 'Scheduled' ? ' selected' : '') + '>Scheduled</option></select>';
+    date.innerHTML = '<strong>Date:</strong> <input type="date" class="form-control form-control-sm" value="' + dateText + '">';
+
+    button.textContent = 'Save';
+    button.onclick = function () { saveLog(this); };
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'btn btn-secondary btn-sm ms-2';
+    cancelBtn.textContent = 'Cancel';
+    cancelBtn.onclick = function () { window.location.reload(); };
+    button.parentNode.appendChild(cancelBtn);
+  }
+
+  function saveLog(button) {
+    const cardBody = button.closest('.card-body');
+    const inputs = cardBody.querySelectorAll('input, select');
+
+    const newSummary = inputs[0].value;
+    const newStatus = inputs[1].value;
+    const newDate = inputs[2].value;
+
+    const logs = JSON.parse(localStorage.getItem('logs')) || [];
+    const updatedLogs = logs.map(log => log.summary === cardBody.querySelector('p:nth-of-type(1)').textContent.replace('Summary: ', '') ? { summary: newSummary, status: newStatus, date: newDate } : log);
+    localStorage.setItem('logs', JSON.stringify(updatedLogs));
+
+    cardBody.innerHTML = `
+      <p><strong>Summary:</strong> ${newSummary}</p>
+      <p><strong>Status:</strong> <span class="badge ${newStatus === 'Completed' ? 'bg-success' : newStatus === 'In Progress' ? 'bg-warning' : 'bg-info'}">${newStatus}</span></p>
+      <p><strong>Date:</strong> ${newDate}</p>
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-custom btn-sm" onclick="editLog(this)">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteLog(this, '${newStatus}')">Delete</button>
+      </div>`;
+
+    updateChart();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const ctx = document.getElementById('progressChart');
+    logChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: Object.keys(logData),
+        datasets: [{
+          data: Object.values(logData),
+          backgroundColor: ['#2ecc71', '#f39c12', '#3498db']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'bottom' } }
+      }
+    });
+
+    const savedLogs = JSON.parse(localStorage.getItem('logs')) || [];
+    savedLogs.forEach(log => {
+      logData[log.status]++;
+      renderLog(log);
+    });
+    updateChart();
+
+    document.getElementById('logForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const summary = document.getElementById('logSummary').value;
+      const status = document.getElementById('logStatus').value;
+      const date = document.getElementById('logDate').value;
+
+      const newLog = { summary, status, date };
+      const logs = JSON.parse(localStorage.getItem('logs')) || [];
+      logs.push(newLog);
+      localStorage.setItem('logs', JSON.stringify(logs));
+
+      renderLog(newLog);
+      logData[status]++;
+      updateChart();
+
+      document.getElementById('logForm').reset();
+      bootstrap.Modal.getInstance(document.getElementById('addLogModal')).hide();
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN</title>
+    <style>
+        /* Basic Reset */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('audio/stars-changing-colors.gif'); /* Path to your image */
+            background-size: cover;
+            background-position: center;
+            flex-direction: column;
+        }
+
+        /* Container for logo, title, and description */
+        .container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Logo styling */
+        .container img {
+            max-height: 80px;
+            margin-bottom: 20px;
+        }
+
+        /* Title styling */
+        .container h1 {
+            margin: 0;
+            font-size: 30px;
+            color: #1c1c84;
+            font-family: '-apple-system';
+        }
+
+        /* Description text */
+        .container p {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        /* Tab container styling */
+        .tab-container {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 320px;
+            background-color: #fff;
+        }
+
+        /* Tab button styling */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .tabs button {
+            padding: 10px 10px;
+            margin-right: 10px;
+            font-size: 12px;
+            background-color: #f4f4f4;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        .tabs button:hover {
+            background-color: #ddd;
+        }
+
+        /* Google sign-in button styling */
+        .google-button {
+            background-color: white;
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .google-button img {
+            width: 20px;
+            margin-right: 10px;
+        }
+
+        .google-button:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Secondary button styling */
+        .secondary-button {
+            background-color: #5c4ee5;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .secondary-button:hover {
+            background-color: #4e3ba9;
+        }
+
+        footer {
+    position: fixed; /* Keeps the footer fixed at the bottom of the page */
+    left: 0;
+    bottom: 0;
+    width: 100%; /* Ensures the footer spans the entire width of the screen */
+    text-align: center; /* Centers the text */
+    padding: 10px 0; /* Adds some space around the text */
+    font-size: 14px; /* Adjust the font size as needed */
+    color: #555; /* Set a color for the text */
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Logo centered above title -->
+        <img src="picture/LogoUiTM.png" alt="UiTM Logo">
+        
+        <!-- Title and description -->
+        <h1>UiTM INTERNSHIP TRACKER</h1>
+    </div>
+
+    <!-- Tab container below login -->
+    <div class="tab-container">
+        <!-- Tab buttons -->
+        <div class="tabs">
+            <a href="index.html">
+            <button class="active">Google</button>
+            </a>
+            <a href="istudent.html">
+            <button class="active">iStudent</button>
+            </a>
+        </div>
+        
+        <!-- Google Sign-in button -->
+        <a href="google.html" class="google-button" style="
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            color: black;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            cursor: pointer;">
+         <img src="picture/google logo.png" alt="Google Logo" style="height: 18px; margin-right: 10px;">
+            Sign in with Google
+        </a>
+
+
+
+        <!-- Secondary button below -->
+         <a href="tatacara.html" class="secondary-button">
+            <button class="secondary-button">Tata cara Pengaktifan Google UiTM</button>
+         </a>
+        
+    </div>
+    
+   <footer>
+  <p>© 2025 UiTM Internship Tracker. </p>
+</footer>
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>

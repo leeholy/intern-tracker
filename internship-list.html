@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Internship Info | UiTM Internship Tracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #eaeaea, #ffffff, #eaeaea);
+      color: #000;
+      transition: background 0.3s, color 0.3s;
+    }
+    .dark-mode {
+      background: #1e1e2e;
+      color: #f4f6f9;
+    }
+    .navbar {
+      background-color: #6c2c91;
+    }
+    .navbar .navbar-brand,
+    .navbar .nav-link {
+      color: #ffffff;
+    }
+    .navbar .nav-link:hover {
+      color: #d0c7ff;
+    }
+    .card-header {
+      background-color: #6c2c91;
+      color: white;
+    }
+    .card {
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s;
+      background-color: #ffffff;
+    }
+    .dark-mode .card,
+    .dark-mode .card-header,
+    .dark-mode .dropdown-menu {
+      background-color: #2f2f48;
+      color: #f4f6f9;
+    }
+    .card:hover {
+      transform: scale(1.02);
+    }
+    footer {
+      text-align: center;
+      padding: 10px 0;
+      font-size: 14px;
+      color: #555;
+      background-color: #f8f9fa;
+      border-top: 1px solid #ddd;
+    }
+    .dark-mode footer {
+      background-color: #1e1e2e;
+      color: #bbb;
+    }
+    .theme-toggle-btn {
+      font-size: 0.9rem;
+      padding: 5px 10px;
+    }
+    #internshipChart {
+      max-width: 400px;
+      height: 300px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" href="dashboard.html">
+      <img src="picture/LogoUiTM.png" alt="Logo" width="100" height="50" class="me-2" />
+      Internship Tracker
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link active" href="internship-list.html"><i class="fas fa-building"></i> Internship</a></li>
+        <li class="nav-item"><a class="nav-link" href="progress-log.html"><i class="fas fa-chart-line"></i> Progress</a></li>
+        <li class="nav-item"><a class="nav-link" href="lecturer.html"><i class="fas fa-chalkboard-teacher"></i> Lecturers</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown">
+            <i class="fas fa-user"></i> Profile
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="profile.html">View Profile</a></li>
+            <li><a class="dropdown-item" href="#" onclick="logout()">Log Out</a></li>
+          </ul>
+        </li>
+      </ul>
+      <button class="btn btn-warning btn-sm ms-3 theme-toggle-btn" onclick="toggleTheme()">
+        <i class="fas fa-adjust"></i> Theme
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Internship Information -->
+<div class="container py-4">
+  <h2 class="mb-4 text-center">My Internship Information</h2>
+  <div class="card mb-4">
+    <div class="card-header"><i class="fas fa-building"></i> Company Info</div>
+    <div class="card-body">
+      <p><strong>Company Name:</strong> BMW Auto Bavaria</p>
+      <p><strong>Supervisor:</strong> Mr. Fauzi Bin Rentah</p>
+      <p><strong>Position:</strong> System Developer Intern</p>
+      <p><strong>Phone:</strong> 1-300-13-3338</p>
+      <p><strong>Duration:</strong> 6 Months (March 2025 - August 2025)</p>
+      <p><strong>Location:</strong> 362, Jln Tun Razak, Taman U Thant, 50400 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur</p>
+      <p><strong>Responsibilities:</strong> Assist in system development, testing, and documentation. Participate in weekly sprint meetings.</p>
+    </div>
+  </div>
+  
+  <!-- Chart Overview -->
+  <div class="card mt-4">
+    <div class="card-header"><i class="fas fa-chart-pie"></i> Task Distribution</div>
+    <div class="card-body text-center">
+      <canvas id="internshipChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>© 2025 UiTM Internship Tracker. </p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+  (function applyTheme() {
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+  })();
+
+  function toggleTheme() {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+  }
+
+  function logout() {
+    if (confirm("Are you sure you want to log out?")) {
+      window.location.href = "index.html";
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const ctx = document.getElementById('internshipChart');
+    if (ctx) {
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['Development', 'Testing', 'Meetings', 'Documentation'],
+          datasets: [{
+            data: [40, 20, 20, 20],
+            backgroundColor: ['#6c2c91', '#f39c12', '#3498db', '#2ecc71']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+      });
+    }
+  });
+</script>
+</body>
+</html>
